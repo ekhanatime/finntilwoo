@@ -1,38 +1,38 @@
 # FINN Importer for WooCommerce
 
-A comprehensive WordPress plugin for importing motorcycle listings from finn.no into WooCommerce with specialized disassembly object management, condition tracking, and internationalization support.
+En omfattende WordPress-plugin for å importere motorsykkellister fra **Finn.no Torget** (den norske markedsplassen) til WooCommerce med spesialisert demonteringsobjekt-håndtering, tilstandsporing og internasjonalisering.
 
-**Author:** Christer Grevæg, Ekhana AS (ekhana.no)  
-**Version:** 1.0.0  
-**License:** GPL v2 or later  
+**Forfatter:** Christer Grevæg, Ekhana AS (ekhana.no)  
+**Versjon:** 1.0.0  
+**Lisens:** GPL v2 eller senere  
 **WordPress:** 5.0+  
 **WooCommerce:** 5.0+  
 **PHP:** 7.4+
 
-## Quick Start
+## Hurtigstart
 
-1. Run the packaging script: `.\build-plugin.ps1`
-2. Upload the generated ZIP file to your WordPress site
-3. Go to **Plugins > Add New > Upload Plugin**
-4. Activate the **FINN Importer** plugin
-5. Configure settings in **WooCommerce > FINN Importer**
+1. Kjør pakkeskriptet: `.\build-plugin.ps1`
+2. Last opp den genererte ZIP-filen til WordPress-nettstedet ditt
+3. Gå til **Plugins > Legg til ny > Last opp plugin**
+4. Aktiver **FINN Importer**-pluginet
+5. Konfigurer innstillinger i **WooCommerce > FINN Importer**
 
-## System Architecture
+## Systemarkitektur
 
 ```mermaid
 graph TB
-    A[FINN.no] --> B[SearchScraper]
+    A[Finn.no Torget<br/>Markedsplass] --> B[SearchScraper]
     B --> C[AdFetcher]
     C --> D[TitleParser]
     C --> E[CategoryMapper]
     D --> F[BrandManager]
-    F --> G[JSON Files]
+    F --> G[JSON Filer]
     C --> H[Importer]
-    H --> I[WooCommerce Products]
+    H --> I[WooCommerce Produkter]
 
     J[DemonteringsobjektManager] --> I
-    K[Admin Interface] --> L[Settings]
-    K --> M[Brand Management]
+    K[Admin Grensesnitt] --> L[Innstillinger]
+    K --> M[Merkehåndtering]
     K --> N[Demonteringsobjekt]
     L --> H
     M --> G
@@ -43,82 +43,91 @@ graph TB
     O --> N
 ```
 
-## Features
+## Funksjoner
 
-- **🚀 Automatic Imports**: Fetch motorcycle listings from finn.no with configurable search URLs
-- **📊 Product Parsing**: Extract title, price, description, images, location, seller, and last modified date
-- **🏷️ Smart Categorization**: Parse titles to extract motorcycle brand, model, and year into custom taxonomies
-- **🗺️ Category Mapping**: Map FINN breadcrumbs to WooCommerce categories
-- **📸 Image Galleries**: Download and set up WooCommerce product galleries from FINN images
-- **📦 Draft Management**: Import as drafts for review, publish individually or in bulk
-- **🔄 FINN Sync**: Re-sync products with latest FINN data (images, price, availability)
-- **🚫 Auto Stock Management**: Automatically mark products as out-of-stock when no longer available on FINN
-- **🏭 Disassembly Objects**: Specialized management for motorcycle parts with condition tracking
-- **🎨 Condition Swatches**: Four-level condition system (Perfect/Green, Good/Yellow, Fair/Orange, Poor/Red) for individual parts
-- **🌍 Internationalization**: Full Norwegian (nb_NO) and English (en_US) support with WordPress i18n
-- **📋 Admin Documentation**: Direct access to README, CHANGELOG, and technical documentation
-- **📦 Professional Packaging**: Windows build scripts with version management
-- **🛠️ Developer Friendly**: Comprehensive documentation with mermaid diagrams and ERDs
+- **🚀 Automatiske Importer**: Hent motorsykkellister fra Finn.no Torget med konfigurerbare søke-URLer
+- **📊 Produktparsing**: Trekk ut tittel, pris, beskrivelse, bilder, sted, selger og siste endringsdato
+- **🏷️ Smart Kategorisering**: Parse titler for å trekke ut motorsykkelmerke, modell og år i egendefinerte taksonomier
+- **🗺️ Kategorikartlegging**: Kartlegg FINN-brødsmuler til WooCommerce-kategorier
+- **📸 Bildegallerier**: Last ned og sett opp WooCommerce-produktgallerier fra FINN-bilder
+- **📦 Utkastshåndtering**: Importer som utkast for gjennomgang, publiser individuelt eller i bulk
+- **🔄 FINN-synkronisering**: Synkroniser produkter med siste FINN-data (bilder, pris, tilgjengelighet)
+- **🚫 Automatisk Lagerhåndtering**: Merk automatisk produkter som utsolgt når de ikke lenger er tilgjengelige på FINN
+- **🏭 Demonteringsobjekter**: Spesialisert håndtering for motorsykkeldeler med tilstandsporing
+- **🎨 Tilstandssvitsjer**: Fire-nivåers tilstandssystem (Perfekt/Grønn, Bra/Gul, Middels/Oransje, Dårlig/Rød) for individuelle deler
+- **🌍 Internasjonalisering**: Full norsk (nb_NO) og engelsk (en_US) støtte med WordPress i18n
+- **🎯 Forbedret UX**: Omfattende verktøytips, intuitivt grensesnitt med emojier og visuell tilbakemelding
+- **📋 Admin-dokumentasjon**: Direkte tilgang til README, CHANGELOG og teknisk dokumentasjon
+- **📦 Profesjonell Pakking**: Windows byggeskript med versjonshåndtering
+- **🛠️ Utviklervennlig**: Omfattende dokumentasjon med mermaid-diagrammer og ERD-er
 
-## Data Flow
+## Dataflyt
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant FINN as finn.no
+    participant Bruker
+    participant FINN as Finn.no Torget
     participant Plugin
     participant WooCommerce
 
-    User->>Plugin: Configure search URL
-    Plugin->>FINN: Fetch search results
-    FINN->>Plugin: HTML with finnkoder
-    Plugin->>FINN: Fetch individual ads
-    FINN->>Plugin: Product details + images
-    Plugin->>Plugin: Parse & categorize
-    Plugin->>WooCommerce: Create products
-    WooCommerce->>User: Products ready for editing
-    User->>Plugin: Manage via admin interface
-    Plugin->>FINN: Re-sync on demand
+    Bruker->>Plugin: Konfigurer søke-URL
+    Plugin->>FINN: Hent søkeresultater
+    FINN->>Plugin: HTML med finnkoder
+    Plugin->>FINN: Hent individuelle annonser
+    FINN->>Plugin: Produktdetaljer + bilder
+    Plugin->>Plugin: Parse & kategoriser
+    Plugin->>WooCommerce: Opprett produkter
+    WooCommerce->>Bruker: Produkter klare for redigering
+    Bruker->>Plugin: Administrer via admin-grensesnitt
+    Plugin->>FINN: Synkroniser på forespørsel
 ```
 
-## Admin Interface
+## Admin-grensesnitt
 
-The plugin provides a comprehensive admin interface with three main sections:
+Pluginet gir et omfattende admin-grensesnitt med tre hovedseksjoner:
 
-### 1. Settings Page
-- **Configuration**: Search URL, category mapping, rate limiting
-- **Manual Import**: Trigger imports on demand
-- **Product Management**: List all imported products with publish functionality
-- **Documentation Links**: Direct access to README, CHANGELOG, and SPOT
+### 1. Innstillinger-side
+- **Konfigurasjon**: Søke-URL, kategorikartlegging, rate-begrensning
+- **Manuell Import**: Utløs importer på forespørsel
+- **Produkthåndtering**: Liste alle importerte produkter med publiseringsfunksjonalitet
+- **Dokumentasjonslenker**: Direkte tilgang til README, CHANGELOG og SPOT
 
-### 2. Brand Management
-- **Brand CRUD**: Add/remove motorcycle brands
-- **Model Management**: Associate models with brands
-- **JSON File Management**: Edit underlying brand/model data
-- **Real-time Updates**: Changes affect title parsing immediately
+### 2. Merkes håndtering
+- **Merke CRUD**: Legg til/fjern motorsykkelmerker
+- **Modellhåndtering**: Knytt modeller til merker
+- **JSON-filhåndtering**: Rediger underliggende merke/modell-data
+- **Sanntidsoppdateringer**: Endringer påvirker tittelparsing umiddelbart
 
-### 3. Demonteringsobjekt Management
-- **Product Table**: All WooCommerce products in editable table format
-- **Inline Editing**: Edit km stand, condition, parts, and price without page reloads
-- **Parts Modal**: Grid-based selection of motorcycle parts by category with condition swatches
-- **Condition Mapping**: Four-level condition system (Perfect/Green, Good/Yellow, Fair/Orange, Poor/Red)
-- **Individual Part Conditions**: Assign different condition levels to each selected part
-- **FINN Sync**: Re-fetch product data and images from FINN
-- **Tag Management**: Add categorization tags
-- **Stock Management**: Automatic out-of-stock when products disappear from FINN
+### 3. Demonteringsobjekt håndtering
+- **Produkttabell**: Alle WooCommerce-produkter klassifisert som "Demonteringsobjekt" (komplette sykler)
+- **Inline-redigering**: Rediger km stand, tilstand, deler og pris uten sideinnlasting
+- **Deler-modal**: Nettbasert utvalg av motorsykkeldeler etter kategori med tilstandssvitsjer
+- **Tilstandskartlegging**: Fire-nivåers tilstandssystem (Perfekt/Grønn, Bra/Gul, Middels/Oransje, Dårlig/Rød)
+- **Individuelle deltilstander**: Tildel forskjellige tilstandsnivåer til hver valgte del
+- **FINN-synk**: Hent siste produktdata og bilder fra FINN
+- **Tag-håndtering**: Legg til kategoriseringstagger
+- **Lagerhåndtering**: Automatisk utsolgt når produkter forsvinner fra FINN
 
-## Condition & Parts Mapping System
+### 4. Deler håndtering
+- **Produkttabell**: Alle WooCommerce-produkter klassifisert som "Deler" (individuelle deler)
+- **Typebytte**: Nedtrekksmeny for å reklassifisere produkter mellom "Del" og "Demonteringsobjekt"
+- **Inline-redigering**: Forenklet redigering for individuelle deler (tittel, pris)
+- **FINN-synk**: Hent siste produktdata og bilder fra FINN
+- **Lagerhåndtering**: Automatiske lagerstatusoppdateringer
+- **Bulk-operasjoner**: Effektiv håndtering av individuelle komponenter
 
-The plugin includes comprehensive mapping systems for motorcycle parts and conditions:
+## Tilstand & Deler Kartleggingssystem
 
-### Condition Mapping
-- **Perfect**: Green (#28a745) - "Som ny" / Brand new
-- **Good**: Yellow (#ffc107) - "Lett brukt" / Lightly used  
-- **Fair**: Orange (#fd7e14) - "Brukt" / Used
-- **Poor**: Red (#dc3545) - "Mye brukt/skadet" / Heavily used/damaged
+Pluginet inkluderer omfattende kartleggingssystemer for motorsykkeldeler og tilstander:
 
-### Parts Categories
-Nine comprehensive categories with Norwegian and English labels:
+### Tilstandskartlegging
+- **Perfekt**: Grønn (#28a745) - "Som ny" / Brand new
+- **Bra**: Gul (#ffc107) - "Lett brukt" / Lightly used
+- **Middels**: Oransje (#fd7e14) - "Brukt" / Used
+- **Dårlig**: Rød (#dc3545) - "Mye brukt/skadet" / Heavily used/damaged
+
+### Delerkategorier
+Ni omfattende kategorier med norske og engelske etiketter:
 - **Motor og drivverk**: Engine and drivetrain
 - **Fjæring og styring**: Suspension and steering
 - **Bremser**: Brakes
@@ -129,129 +138,176 @@ Nine comprehensive categories with Norwegian and English labels:
 - **Eksos og kjøling**: Exhaust and cooling
 - **Elektronikk og belysning**: Electronics and lighting
 
-### Mapping Features
-- **Reverse Lookups**: Find category by part name
-- **Condition Translation**: Map between labels, colors, and keys
-- **Multi-language Support**: Norwegian and English part names
-- **Structured Storage**: Consistent data format for parts and conditions
+### Tilstandssystem for Valgte Deler
 
-### Building Plugin Packages
+#### Individuell Delt Tilstandstilordning
+Hver motorsykkeldel kan ha sitt eget tilstandsnivå, noe som muliggjør detaljert lagerstyring:
 
-Use the provided build scripts to create versioned ZIP packages for deployment:
+1. **Velg Deler**: Velg deler fra den kategoriserte modalen
+2. **Tilordne Tilstander**: Klikk tilstandssvitsjer ved siden av hver valgte del
+3. **Visuell Tilbakemelding**: Valgte tilstander markeres med blå kant
+4. **Standard Tilstand**: "Bra" (Bra) tildeles hvis ikke eksplisitt valgt
+
+#### Tilstandssvitsj Grensesnitt
+- **Fargekodede Sirkler**: Fire sirkelindikatorer per del (Grønn/Gul/Oransje/Rød)
+- **Klikk for å Velge**: Klikk hvilken som helst svitsj for å tildele det tilstandsnivået
+- **Enkelt Valg**: Kun én tilstand per del (radioknapp-atferd)
+- **Validering**: Tilstander kan kun velges etter at del-checkbox er avmerket
+
+#### Tilstand Legend
+Modalen viser en legende som inneholder:
+- **Tilstandsnavn**: Perfekt, Bra, Middels, Dårlig
+- **Fargeindikator**: Visuell fargeprøve
+- **Beskrivelse**: Norske forklaringer ("Som ny", "Lett brukt", etc.)
+- **Tooltip-informasjon**: Hover viser detaljert beskrivelse
+
+#### Datalagring Format
+Deler med tilstander lagres som: `"Kategori|Delnavn:tilstand_nøkkel"`
+
+**Eksempler:**
+- `"Motor_og_drivverk|Motor komplett:perfekt"`
+- `"Bremser|Bremsekaliper foran:middels"`
+- `"Fjæring_og_styring|Forgaffel komplett:bra"`
+
+#### Visuell Visning
+Valgte deler vises med:
+- **Tilstands Prikk**: Liten farget sirkel som indikerer tilstandsnivå
+- **Delnavn**: Avkortet hvis for langt (hover for full navn)
+- **Tag-format**: Ren, merkelapp-lignende utseende
+- **Hover Tooltips**: Vis delnavn + tilstand beskrivelse
+
+### Kartleggingsfunksjoner
+- **Reversoppslag**: Finn kategori etter delnavn
+- **Tilstand Oversettelse**: Kartlegg mellom etiketter, farger og nøkler
+- **Flerspråklig Støtte**: Norske og engelske delnavn
+- **Strukturert Lagring**: Konsistent dataformat for deler og tilstander
+
+## Utvikling & Pakking
+
+### Bygg Plugin Pakker
+
+Bruk de medfølgende byggeskriptene for å lage versjonerte ZIP-pakker for distribusjon:
 
 ```powershell
-# PowerShell (recommended)
-.\build-plugin.ps1                    # Uses version from VERSION.txt
-.\build-plugin.ps1 -Version "1.1.0"   # Specific version
-.\build-plugin.ps1 -NoTimestamp       # No timestamp in filename
+# PowerShell (anbefalt)
+.\build-plugin.ps1                    # Bruk versjon fra VERSION.txt
+.\build-plugin.ps1 -Version "1.1.0"   # Spesifikk versjon
+.\build-plugin.ps1 -NoTimestamp       # Ingen tidsstempel i filnavn
 
-# Batch file
+# Batch-fil
 build-plugin.bat
 ```
 
-### Versioning
+### Versjonering
 
-- Edit `VERSION.txt` to set your desired version number
-- Or use automatic timestamp versioning (YY.MM.DD.HHMM format)
-- Built packages are saved in the `build/` directory
+- Rediger `VERSION.txt` for å sette ønsket versjon
+- Eller bruk automatisk tidsstempel-versjonering (ÅÅ.MM.DD.TTMM-format)
+- Bygde pakker lagres i `build/`-mappen
 
-See `PACKAGING.md` for detailed packaging instructions.
+### Kompiler Oversettelser
 
-## Internationalization
-
-The plugin supports full internationalization with Norwegian (nb_NO) and English (en_US) translations:
-
-- **Admin Interface**: Automatically adapts to WordPress admin language setting
-- **Motorcycle Terminology**: Proper Norwegian translations for bike parts and categories
-- **User Messages**: All notifications and help text translated
-- **Date/Currency**: Localized formatting where appropriate
-
-## Installation
-
-1. Upload the `finn-importer` folder to `wp-content/plugins/`
-2. Activate the plugin in WordPress admin
-3. Configure settings in WooCommerce > FINN Importer
-4. Update CategoryMapper.php with actual WooCommerce category IDs for breadcrumb mapping
-5. Run manual import or wait for scheduled runs
-
-## Configuration
-
-### Basic Setup
-- **Search URL**: URL to FINN.no search results with your desired filters
-- **Category ID**: WooCommerce category ID for imported products
-- **Rate Limiting**: Delay between requests to avoid being blocked
-- **User Agent**: Browser identification for FINN.no compatibility
-
-### Advanced Configuration
-- **Brand Management**: Add/remove motorcycle brands for title parsing
-- **Model Association**: Link models to specific brands
-- **Parts Categories**: Customize motorcycle part categories and conditions
-
-## Usage
-
-The plugin will automatically run hourly via WP-Cron. Use the "Run Import Now" button for manual execution.
-
-Imported products appear as drafts in WooCommerce > Products.
-
-Use the brand, model, and year filters in the admin product list to filter imported motorcycles.
-
-### Disassembly Object Management
-
-For products containing motorcycle parts:
-
-1. Go to **WooCommerce > FINN Importer > Demonteringsobjekt**
-2. View all products in table format
-3. Click "Edit" to modify km stand, condition, and parts
-4. Use "Select Parts" modal to choose available components
-5. Assign condition levels (Perfect, Good, Fair, Poor) to individual parts
-6. Click "Fetch" to sync with latest FINN data
-
-## API Reference
-
-### Custom Taxonomies
-- `mc_brand`: Motorcycle brand (hierarchical)
-- `mc_model`: Motorcycle model
-- `mc_year`: Production year
-- `mc_km_stand`: Mileage for disassembly objects
-- `mc_tilstand`: Condition (Brukt/Ny)
-
-### Custom Meta Fields
-- `_ext_source`: 'finn' (source identifier)
-- `_ext_id`: finnkode (unique SKU)
-- `_ext_url`: FINN ad URL
-- `_regular_price`: Product price
-- `_stock`: Stock quantity
-- `_stock_status`: Stock status
-- `_product_image_gallery`: Image gallery IDs
-- `_demont_km_stand`: Mileage
-- `_demont_parts`: Parts list with conditions
-- `_finn_last_modified`: Last sync timestamp
-- `_finn_location`: Seller location
-- `_finn_seller`: Seller information
-
-## Technical Architecture
-
-### Component Overview
-```mermaid
-classDiagram
-    FINN_Importer ..> SearchScraper : creates
-    FINN_Importer ..> AdFetcher : creates
-    FINN_Importer ..> TitleParser : creates
-    FINN_Importer ..> CategoryMapper : creates
-    FINN_Importer ..> Importer : creates
-    FINN_Importer ..> BrandManager : creates
-    FINN_Importer ..> DemonteringsobjektManager : creates
-    FINN_Importer ..> Settings : creates
-
-    AdFetcher ..> TitleParser : uses
-    AdFetcher ..> CategoryMapper : uses
-    Importer ..> TitleParser : uses
-    Importer ..> CategoryMapper : uses
-    TitleParser ..> BrandManager : uses
-    DemonteringsobjektManager ..> AdFetcher : uses for sync
+```powershell
+# Kompiler .po filer til .mo filer (krever gettext-verktøy)
+.\compile-translations.ps1
 ```
 
-### Database Schema
+Se `PACKAGING.md` for detaljerte pakkingsinstruksjoner.
+
+## Internasjonalisering
+
+Pluginet støtter full internasjonalisering med norske (nb_NO) og engelske (en_US) oversettelser:
+
+- **Admin-grensesnitt**: Tilpasses automatisk til WordPress admin-språkinnstilling
+- **Motorsykkelterminologi**: Riktige norske oversettelser for sykkeldeler og kategorier
+- **Brukermeldinger**: Alle varsler og hjelpetekst oversatt
+- **Dato/Valuta**: Lokalisert formatering hvor aktuelt
+
+## Installasjon
+
+1. Last opp `finn-importer`-mappen til `wp-content/plugins/`
+2. Aktiver pluginet i WordPress admin
+3. Konfigurer innstillinger i WooCommerce > FINN Importer
+4. Oppdater CategoryMapper.php med faktiske WooCommerce-kategori-IDer for brødsmulekartlegging
+5. Kjør manuell import eller vent på planlagte kjøringer
+
+## Konfigurasjon
+
+### Grunnleggende Oppsett
+- **Søke-URL**: URL til FINN.no søkeresultater med ønskede filtre
+- **Kategori-ID**: WooCommerce produktkategori-ID hvor importerte motorsykler plasseres
+- **Rate-begrensning**: Forsinkelse mellom forespørsler for å unngå blokkering
+- **User Agent**: Nettleseridentifikasjonsstreng for FINN.no-kompatibilitet
+
+### Avansert Konfigurasjon
+- **Merkes håndtering**: Legg til/fjern motorsykkelmerker for tittelparsing
+- **Modelltilknytning**: Knytt modeller til spesifikke merker
+- **Delerkategorier**: Tilpass motorsykkeldelkategorier og tilstander
+
+## Bruk
+
+Pluginet kjører automatisk hver time via WP-Cron. Bruk "Kjør Import Nå"-knappen for manuell kjøring.
+
+Importerte produkter vises som utkast i WooCommerce > Produkter.
+
+Bruk merke-, modell- og år-filtrene i admin-produktlisten for å filtrere importerte motorsykler.
+
+### Demonteringsobjekt Håndtering
+
+For produkter som inneholder motorsykkeldeler:
+
+1. Gå til **WooCommerce > FINN Importer > Demonteringsobjekt**
+2. Se alle produkter i tabellformat
+3. Klikk "Rediger" for å endre km stand, tilstand og deler
+4. Bruk "Velg Deler"-modal for å velge tilgjengelige komponenter
+5. Tildel tilstandsnivåer (Perfekt, Bra, Middels, Dårlig) til hver valgte del
+6. Klikk "Hent" for å synkronisere med siste FINN-data
+
+## API Referanse
+
+### Egendefinerte Taksonomier
+- `mc_brand`: Motorsykkelmerke (hierarkisk)
+- `mc_model`: Motorsykkelmodell
+- `mc_year`: Produksjonsår
+- `mc_km_stand`: Kilometerstand for demonteringsobjekter
+- `mc_tilstand`: Tilstand (Brukt/Ny)
+
+### Egendefinerte Meta-felt
+- `_ext_source`: 'finn' (kildeidentifikator)
+- `_ext_id`: finnkode (unik SKU)
+- `_ext_url`: FINN annonse-URL
+- `_regular_price`: Produktpris
+- `_stock`: Lagermengde
+- `_stock_status`: Lagerstatus
+- `_product_image_gallery`: Bildegalleri-IDer
+- `_demont_km_stand`: Kilometerstand
+- `_demont_parts`: Delerliste med tilstander
+- `_finn_last_modified`: Siste synkronisering tidsstempel
+- `_finn_location`: Selgersted
+- `_finn_seller`: Selgerinformasjon
+
+## Teknisk Arkitektur
+
+### Komponentoversikt
+```mermaid
+classDiagram
+    FINN_Importer ..> SearchScraper : oppretter
+    FINN_Importer ..> AdFetcher : oppretter
+    FINN_Importer ..> TitleParser : oppretter
+    FINN_Importer ..> CategoryMapper : oppretter
+    FINN_Importer ..> Importer : oppretter
+    FINN_Importer ..> BrandManager : oppretter
+    FINN_Importer ..> DemonteringsobjektManager : oppretter
+    FINN_Importer ..> Settings : oppretter
+
+    AdFetcher ..> TitleParser : bruker
+    AdFetcher ..> CategoryMapper : bruker
+    Importer ..> TitleParser : bruker
+    Importer ..> CategoryMapper : bruker
+    TitleParser ..> BrandManager : bruker
+    DemonteringsobjektManager ..> AdFetcher : bruker for synk
+```
+
+### Databaseskjema
 ```mermaid
 erDiagram
     wp_posts {
@@ -268,13 +324,13 @@ erDiagram
         text meta_value
     }
 
-    wp_term_relationships ||--|| wp_posts : "product_terms"
+    wp_term_relationships ||--|| wp_posts : "produkt_term"
     wp_term_relationships {
         bigint object_id FK
         bigint term_taxonomy_id FK
     }
 
-    wp_term_taxonomy ||--|| wp_terms : "taxonomy_terms"
+    wp_term_taxonomy ||--|| wp_terms : "taksonomi_term"
     wp_term_taxonomy {
         varchar taxonomy "mc_brand|mc_model|mc_year|mc_km_stand|mc_tilstand"
     }
@@ -282,39 +338,39 @@ erDiagram
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history and updates.
+Se [CHANGELOG.md](CHANGELOG.md) for detaljerte versjonshistorikk og oppdateringer.
 
-## Contributing
+## Bidrag
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Update documentation and tests
-5. Submit a pull request
+1. Fork repository
+2. Opprett en feature-branch
+3. Gjør endringene dine
+4. Oppdater dokumentasjon og tester
+5. Send en pull request
 
-## Support
+## Støtte
 
-For support and questions:
-- **Author**: Christer Grevæg
-- **Company**: Ekhana AS
-- **Website**: [ekhana.no](https://ekhana.no)
-- **Documentation**: See SPOT.md for technical details
+For støtte og spørsmål:
+- **Forfatter**: Christer Grevæg
+- **Selskap**: Ekhana AS
+- **Nettside**: [ekhana.no](https://ekhana.no)
+- **Dokumentasjon**: Se SPOT.md for tekniske detaljer
 
-## License
+## Lisens
 
-This plugin is licensed under the GPL v2 or later.
+Dette pluginet er lisensiert under GPL v2 eller senere.
 
 ```
 FINN Importer for WooCommerce
 Copyright (C) 2025 Christer Grevæg, Ekhana AS
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+Dette programmet er gratis programvare; du kan redistribuere det og/eller
+modifisere det under vilkårene i GNU General Public License som publisert av
+Free Software Foundation; enten versjon 2 av lisensen, eller
+(etter eget valg) enhver senere versjon.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+Dette programmet distribueres i håp om at det vil være nyttig,
+men UTEN NOEN GARANTI; selv uten underforstått garanti for
+SALGBARHET eller EGNETHET FOR ET BESTEMT FORMÅL. Se GNU
+General Public License for flere detaljer.
 ```
